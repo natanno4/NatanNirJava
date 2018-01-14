@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: blue;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <Pane layoutX="18.0" layoutY="17.0" opacity="0.94" prefHeight="364.0" prefWidth="566.0" style="-fx-background-color: yellow;">
+            <children>
+                <Label layoutX="21.0" layoutY="92.0" prefHeight="36.0" prefWidth="165.0" text="num of rows and cols :" />
+                <TextField layoutX="191.0" layoutY="99.0" prefHeight="12.0" prefWidth="63.0" />
+                <Label layoutX="19.0" layoutY="225.0" prefHeight="25.0" prefWidth="142.0" text="choose starter:" />
+                <Button layoutX="192.0" layoutY="219.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="41.0" text="X" textFill="#5e1717">
+                    <font>
+                        <Font name="System Bold" size="18.0" />
+                    </font>
+                </Button>
+                <Button layoutX="243.0" layoutY="219.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="41.0" text="O" textFill="#7c2b2b">
+                    <font>
+                        <Font name="System Bold" size="18.0" />
+                    </font>
+                </Button>
+                <Label layoutX="19.0" layoutY="129.0" prefHeight="44.0" prefWidth="183.0" text="enter color of player X:" />
+                <Label layoutX="19.0" layoutY="181.0" prefHeight="25.0" prefWidth="159.0" text="enter color of player O:" />
+                <TextField layoutX="192.0" layoutY="138.0" prefHeight="25.0" prefWidth="94.0" />
+                <TextField layoutX="193.0" layoutY="178.0" prefHeight="25.0" prefWidth="94.0" />
+                <Label alignment="CENTER" layoutX="54.0" layoutY="32.0" prefHeight="36.0" prefWidth="396.0" text="Please Choose Properties:">
+                    <font>
+                        <Font name="System Bold" size="24.0" />
+                    </font>
+                </Label>
+                <Button layoutX="362.0" layoutY="277.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="109.0" text="save">
+                    <font>
+                        <Font size="18.0" />
+                    </font>
+                </Button>
+            </children>
+            <effect>
+                <DropShadow />
+            </effect>
+        </Pane>
+    </children>
+    <effect>
+        <InnerShadow />
+    </effect>
+</Pane>
