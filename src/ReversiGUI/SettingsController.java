@@ -25,7 +25,7 @@ public class SettingsController {
     @FXML
     private Button save;
     @FXML
-    private Button starter;
+    private TextField starter;
     @FXML
     private TextField colorOfPlayerO;
     @FXML
@@ -43,6 +43,7 @@ public class SettingsController {
                 String Xcolor = this.colorOfPlayerX.getText();
                 String Ocolor = this.colorOfPlayerO.getText();
                 Integer size = Integer.parseInt(this.boardSize.getText());
+                String whoStart = this.starter.toString();
 
                 OutputStreamWriter is = null;
                 try {
@@ -50,6 +51,7 @@ public class SettingsController {
                     is.write(Xcolor);
                     is.write(Ocolor);
                     is.write(size);
+                    is.write(whoStart);
                 } catch (Exception e) {
                     System.out.println("error");
                 } finally {
@@ -80,15 +82,23 @@ public class SettingsController {
 
         String colorX = this.colorOfPlayerX.getText();
         String colorO = this.colorOfPlayerO.getText();
+
         String size = this.boardSize.getText();
 
+        String start = this.starter.getText();
+        String start2 = start.toUpperCase();
+
         Integer sizeB = Integer.parseInt(size);
+        if (!start2.equals("X") || !start2.equals("O")) {
+            return false;
+        }
         if (sizeB > 20 || sizeB < 4) {
             return false;
         }
         if (!this.list.contains(colorX) || !this.list.contains(colorO)) {
             return false;
         }
+
         return true;
     }
 }
