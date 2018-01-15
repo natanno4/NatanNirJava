@@ -22,7 +22,7 @@ public class SettingsManager {
         try {
             is = new FileInputStream(settingsFile);
             reader = new BufferedReader(new InputStreamReader(is));
-            buffer = reader.readLine();
+
             while ((buffer = reader.readLine()) != null) {
                 settings.add(buffer);
             }
@@ -33,7 +33,7 @@ public class SettingsManager {
                 try {
                     reader.close();
                 } catch (IOException e) {
-                    System.out.println("Natanuhshkaaaa");
+                    System.out.println("error in reading");
                 }
 
             }
@@ -41,22 +41,21 @@ public class SettingsManager {
         this.parseFields(settings);
     }
     private void parseFields(List<String>list) {
-        ColorParsar parsar = new ColorParsar();
         this.size = Integer.parseInt(list.get(0));
-        this.Xcolor = parsar.parsing(list.get(1));
-        this.Ocolor = parsar.parsing(list.get(2));
+        this.Xcolor = Color.valueOf(list.get(1));
+        this.Ocolor = Color.valueOf(list.get(2));
         this.starter = list.get(3).charAt(0);
     }
-    private Color getXcolor() {
+    public Color getXcolor() {
         return this.Xcolor;
     }
-    private Color getOcolor() {
+    public Color getOcolor() {
         return this.Ocolor;
     }
-    private Integer getSize() {
+    public Integer getSize() {
         return this.size;
     }
-    private Character getStarter(){
+    public Character getStarter(){
         return this.starter;
     }
 }
