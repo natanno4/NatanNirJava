@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+
+
+<HBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="revesiApp.GameController" fx:id
+        ="root" spacing="30">
+
+    <VBox fx:id="vBox" spacing="10">
+        <Button  text = "start Game" onAction = "#startGame"/>
+        <Button text = "Settings" onAction = "#runSettings"/>
+        <Button fx:id="exit" text = "End Game" onAction = "#exitKey"/>
+
+
+    </VBox>
+</HBox>
