@@ -1,3 +1,5 @@
+package ReversiGame;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +58,7 @@ public class StandardLogic implements GameLogic {
      * @param j - the j col index.
      */
     private void checkSequence(Board b, char rival, int rowOperator,
-                                      int colOperator, int i, int j) {
+                               int colOperator, int i, int j) {
         while ((i > -1) && (j > -1) && (i < b.getSize()) && (j < b.getSize())) {
             if (b.getSign(i,j) == ' ') {
                 Point point= new Point(i + 1, j + 1);
@@ -164,7 +166,7 @@ public class StandardLogic implements GameLogic {
      * @param j - the j col index.
      */
     private void checkSequenceAndAplly(Board b, char rival, int rowOperator,
-                               int colOperator, int i, int j) {
+                                       int colOperator, int i, int j) {
         while ((i > -1) && (j > -1) && (i < b.getSize()) && (j < b.getSize())) {
             if (b.getSign(i,j) == getCompetitor(rival)) {
                 //go back to flip rivals
@@ -192,7 +194,6 @@ public class StandardLogic implements GameLogic {
 
     @Override
     public List<Point> possiblePoints(Board b, char s) {
-
         for(int i = 0; i < b.getSize();i++) {
             for(int j = 0; j < b.getSize();j++){
                 //check for player sign in the table
