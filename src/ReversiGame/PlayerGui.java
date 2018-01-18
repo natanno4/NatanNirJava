@@ -8,11 +8,6 @@ public class PlayerGui extends Player {
 
     private Color color;
 
-    /**
-     * constructor.
-     * @param sign sign of player
-     * @param color color of discs
-     */
     public PlayerGui(char sign, Color color) {
         super(sign);
         this.color = color;
@@ -23,10 +18,6 @@ public class PlayerGui extends Player {
         return null;
     }
 
-    /**
-     * get color of discs.
-     * @return color
-     */
     public Color getColor() {
         return this.color;
     }

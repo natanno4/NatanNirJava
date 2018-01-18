@@ -1,4 +1,4 @@
-package revesiApp;
+package ReversiGUI;
 
 import ReversiGame.*;
 import javafx.event.ActionEvent;
@@ -19,6 +19,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 
 import java.util.ResourceBundle;
@@ -64,12 +65,17 @@ public class GameController implements Initializable {
     private Player turnCheck;
 
 
-
-
+    /**
+     * constructor.
+     * before menu + board is on, read the properties from file.
+     * than initiliaze all components of game: logic, players, flow etc.
+     */
     public GameController() {
         SettingsManager settingsManager = new SettingsManager();
+        //get properties from file.
         settingsManager.readFromFile();
         this.b = new Board(settingsManager.getSize());
+        //set players.
         if(settingsManager.getStarter().equals(firstPlayerSign)) {
             playerOne = new PlayerGui(firstPlayerSign, settingsManager.getXcolor());
             playerTwo = new PlayerGui(secondPlayerSign, settingsManager.getOcolor());
@@ -83,9 +89,15 @@ public class GameController implements Initializable {
         this.turnCheck = this.playerTwo;
         this.noMove = new Label("");
 
-
     }
 
+    /**
+     * initialize function.
+     * initliaze boardController, and set his board & players.
+     * set width and than draw it.
+     * @param location
+     * @param resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         this.boardController = new BoardController(this.b, playerOne, playerTwo);
@@ -107,13 +119,23 @@ public class GameController implements Initializable {
         this.boardController.draw();
     }
 
-
+    /**
+     * exitKey function.
+     * exit from game.
+     * @param event event
+     */
     @FXML
     protected void  exitKey(ActionEvent event) {
         Stage stage = (Stage) this.exit.getScene().getWindow();
         System.exit(0);
     }
 
+    /**
+     * runSettings function.
+     * load the settingsXML fxml file that shows the settings
+     * of game.
+     * @param event event
+     */
     @FXML
     protected  void runSettings(ActionEvent event) {
         try {
@@ -128,9 +150,16 @@ public class GameController implements Initializable {
         }
     }
 
+    /**
+     * startGame function.
+     * remove all menu buttons, show score and name of both
+     * players and set the exit button.
+     * @param event
+     */
     @FXML
     protected void startGame(ActionEvent event) {
         this.vBox.getChildren().clear();
+        //initialize game status labels.
         String startPlayer = "current player: " + playerOne.getSign();
         this.currentPlayer = new Label(startPlayer);
         String firstScore = playerOne.getSign() + " player score: " +
@@ -149,6 +178,8 @@ public class GameController implements Initializable {
             this.handleOneTurn(mouseEvent.getX(),mouseEvent.getY());
 
         });
+
+        //create inner exit game button
         this.exitGame = new Button();
         this.exitGame.setPrefSize(109, 44);
         this.exitGame.setText("Exit Game");
@@ -160,57 +191,30 @@ public class GameController implements Initializable {
 
     }
 
+    /**
+     * handleOneTurn function.
+     * play one turn in game.
+     * check if game is over and check if the next player
+     * has no turns and print the result accordingly.
+     * @param x x value
+     * @param y y value
+     */
     private void handleOneTurn(double x, double y) {
-        /*
-        if (this.run.checkEndGame() || this.run.noMoveForBothPlayers()) {
-            this.vBox.getChildren().remove(this.noMove);
-            this.handleEndGame();
-        }
         Point p = this.boardController.convertToTableBlock(x, y);
-        if(this.run.playOneTurn(p)) {
-
-            if(this.run.checkIfNoMove((this.turn))) {
-                String no = "no possible move for " + this.turn.getSign() +
-                        "\n turn moves to next player";
-                this.noMove = new Label(no);
-                this.vBox.getChildren().add(this.noMove);
-            }
-
-            if(this.run.checkIfNoMove((this.run.getComp(this.turn)))) {
-                String no = "no possible move for " +this.run.getComp(this.turn).getSign()
-                        + "\nmoves to next player";
-                this.noMove = new Label(no);
-                this.vBox.getChildren().add(this.noMove);
-            }
-
-            this.turn = this.run.whoPlay();
-            String firstScore = playerOne.getSign() + " player score: " +
-                    playerOne.getScore();
-            String secondScore = playerTwo.getSign() + " player score:" +
-                    playerTwo.getScore();
-            String startPlayer = "current player: " + this.turn.getSign();
-            this.currentPlayer.setText(startPlayer);
-            this.playerOneScore.setText(firstScore);
-            this.playerTwoScore.setText(secondScore);
-            if (this.run.checkEndGame() || this.run.noMoveForBothPlayers()) {
-                this.vBox.getChildren().remove(this.noMove);
-                this.handleEndGame();
-            }
-        }
-        this.boardController.draw();
-        */
-        Point p = this.boardController.convertToTableBlock(x, y);
+        //check if the chosen point is valid and play if yes.
         if (this.run.playOneTurn(p)) {
+            //change turn
             this.turn = this.run.whoPlay();
+            //set game status labels.
             String firstScore = playerOne.getSign() + " player score: " +
                     playerOne.getScore();
-
             String secondScore = playerTwo.getSign() + " player score:" +
                     playerTwo.getScore();
             String startPlayer = "current player: " + this.turn.getSign();
             this.currentPlayer.setText(startPlayer);
             this.playerOneScore.setText(firstScore);
             this.playerTwoScore.setText(secondScore);
+            //check if next player has move.
             if (this.run.getNoMovePlayer() != null) {
 
                 String no = "no possible move for " + this.run.getNoMovePlayer()
@@ -219,8 +223,7 @@ public class GameController implements Initializable {
             } else {
                 this.noMove.setText("");
             }
-
-
+            //check for end game
             if(this.run.checkEndGame()) {
                 this.noMove.setText("");
                 this.handleEndGame();
@@ -232,7 +235,12 @@ public class GameController implements Initializable {
 
     }
 
+    /**
+     * handleEndGame function.
+     * print the winner of game.
+     */
     public void handleEndGame() {
+        //get winner
         this.turn = this.run.whoWon();
         String  winner;
         if (turn == null) {

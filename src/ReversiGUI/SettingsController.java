@@ -7,15 +7,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.*;
 import javafx.event.Event;
 import javax.print.attribute.standard.OutputDeviceAssigned;
 
-import javafx.scene.control.ColorPicker;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -48,29 +47,37 @@ public class SettingsController {
         this.boardSize.setItems(options);
         this.starter.setItems(FXCollections.observableArrayList("X", "O"));
     }
+    @FXML
+    private Label errorLabel;
+    @FXML
+    private Pane pane;
 
-
+    /**
+     * saveSettingsToFile function.
+     * check for every fields required, and convert them to string so he can write it
+     * to file. if not all fields are full or both players have same color -> restart
+     * the fields.
+     * @param event event
+     */
     @FXML
     protected void saveSettingsToFile(Event event) {
-
+        boolean isWrongInput = false;
         try {
-
-            if (this.checkValid()) {
-
-                Color Xcolor = this.colorOfPlayerX.getValue();
-                String s = Xcolor.toString();
-                System.out.println(s + "natan ugosheniaaaaaaaaaaaa");
+                String Xcolor = this.colorOfPlayerX.getValue().toString();
                 String Ocolor = this.colorOfPlayerO.getValue().toString();
+                if (Xcolor.equals(Ocolor)) {
+                    throw new RuntimeException("e");
+                }
                 String size = this.boardSize.getValue().toString();
 
                 String whoStart = this.starter.getValue().toString();
 
                 OutputStreamWriter os = null;
                 try {
-                    os = new OutputStreamWriter(new FileOutputStream(new File(("src/settings.txt"))));
+                    os = new OutputStreamWriter(new FileOutputStream(new File(("settings.txt"))));
                     os.write(size);
                     os.write("\n");
-                    os.write(s);
+                    os.write(Xcolor);
                     os.write("\n");
                     os.write(Ocolor);
                     os.write("\n");
@@ -86,10 +93,28 @@ public class SettingsController {
                         System.out.println("error in closing file");
                     }
                 }
-            }
+
         } catch (RuntimeException e) {
-            System.out.println("error in parse");
+
+            try {
+                this.pane = (Pane) FXMLLoader.load(getClass().getResource("SettingsXML.fxml"));
+                Scene scene = new Scene(this.pane);
+                Stage stage;
+                stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+                stage.setScene(scene);
+                isWrongInput = true;
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+
+
         }
+
+        if (isWrongInput) {
+            //if same color for both players OR not all fields are full
+            return;
+        }
+        //return to menu
         try {
             Parent hbox;
             hbox = (HBox) FXMLLoader.load(getClass().getResource("ReversiGameXML.fxml"));
@@ -101,25 +126,17 @@ public class SettingsController {
             e.printStackTrace();
         }
     }
-    private boolean checkValid() {
-        /*
-        String colorX = this.colorOfPlayerX.getText();
-        String colorO = this.colorOfPlayerO.getText();
-        String size = this.boardSize.getText();
-        String start = this.starter.getText();
-        String start2 = start.toUpperCase();
-        Integer sizeB = Integer.parseInt(size);
-        if (!start2.equals("X") && !start2.equals("O")) {
-            return false;
+    @FXML
+    protected void cancel(Event event) {
+        try {
+            Parent hbox;
+            hbox = (HBox) FXMLLoader.load(getClass().getResource("ReversiGameXML.fxml"));
+            Scene scene = new Scene(hbox);
+            Stage stage;
+            stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        if (sizeB > 20 || sizeB < 4) {
-            return false;
-        }
-        if (!this.list.contains(colorX) || !this.list.contains(colorO)) {
-            return false;
-        }
-            */
-        return true;
     }
-
 }

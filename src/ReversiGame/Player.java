@@ -30,7 +30,7 @@ public abstract class Player {
 
     public void updatePlayerScore(Board b) {
         if (sign == firstPlayerSign) {
-            this.score = b.getNumberOfX();
+           this.score = b.getNumberOfX();
         } else {
             this.score = b.getNumberOfO();
         }
@@ -39,6 +39,7 @@ public abstract class Player {
     public int getScore() {
         return this.score;
     }
+
     public void setScore(int score) {
         this.score = score;
     }
